@@ -1,0 +1,2 @@
+# ginion
+Git Minion
