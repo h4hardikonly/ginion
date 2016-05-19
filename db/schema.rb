@@ -11,7 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160518161354) do
+ActiveRecord::Schema.define(version: 20160519045420) do
+
+  create_table "pull_requests", force: :cascade do |t|
+    t.integer  "number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "pull_requests", ["number"], name: "index_pull_requests_on_number"
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
