@@ -4,16 +4,30 @@
     .panel.panel-warning
       .panel-heading
         .row
-          .col-xs-10 Pull request in queue for merge
-          .col-xs-2
-            %button.btn.btn-sm.btn-warning{"aria-label": "Left Align"}
-              %span.glyphicon.glyphicon-plus{"aria-hidden": "true"}
-              Add pull request
-      .panel-body
-        list will be here
-        and it will continue
-        %br
-        and it will continue more
-        %br
-        and it will continue some more
+          .col-xs-9 Your pull request in queue for merge
+          .col-xs-3
+            = form_tag pull_requests_path, id: 'add-new-pr-form', class: 'input-group', enctype: 'application/json' #, onsubmit: 'return false;'
+            = text_field_tag :number, nil, placeholder: 'Pull request number', class: 'form-control'
+            %span.input-group-btn#add-new-pr-btn
+              %button.btn.btn-sm-default{"aria-label": "Left Align"}
+                %span.glyphicon.glyphicon-plus{"aria-hidden": "true"}
+      - # .panel-body
+      %table.table.table-striped.table-hover.warning
+        %tr
+          %th PR number
+          %th Date added
+        = render partial: 'pull_requests/pr', collection: @prs
   .col-md-2
+
+:javascript
+  $(document).ready( function() {
+    $('#add-new-pr-form').submit(function (e) {
+      var url = "#{pull_requests_path}";
+      $.ajax({
+        type: "POST",
+        url: url,
+        data: $("#add-new-pr-form").serialize()
+      });
+      e.preventDefault();
+    });
+  });
