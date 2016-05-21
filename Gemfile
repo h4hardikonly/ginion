@@ -19,6 +19,13 @@ gem 'haml-rails'
 gem 'devise'
 gem 'omniauth-github'
 
+gem 'state_machines-activerecord'
+
+gem 'sidekiq'                          # background processing
+
+# gem 'httparty'
+# gem "time_difference"
+
 group :development, :test do
   gem 'byebug'
 end

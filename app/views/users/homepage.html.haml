@@ -14,8 +14,10 @@
       - # .panel-body
       %table.table.table-striped.table-hover.warning
         %tr
+          %th Queue
           %th PR number
           %th Date added
+          %th Status
         = render partial: 'pull_requests/pr', collection: @prs
   .col-md-2
 
