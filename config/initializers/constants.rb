@@ -1,4 +1,6 @@
 module GlobalConst
-  BRANCHES = ['master']
+  # TRACKING_BRANCHES = ['master']
   WAIT_TIME_BETWEEN_MERGE_ENQUEUE_TRY = 1.minutes
+  UNLOCKED_BRANCHES = ['master', '015_release']
+  ALLOWED_MERGES_AGAINST = UNLOCKED_BRANCHES
 end

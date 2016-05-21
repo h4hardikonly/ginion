@@ -4,6 +4,7 @@ class CreatePullRequests < ActiveRecord::Migration
       t.integer :number, index: true
       t.integer :queued_by_id, index: true, foreign_key: true
       t.string  :state, index: :true
+      t.string  :against
 
       t.timestamps null: false
     end
