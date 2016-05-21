@@ -1,0 +1,4 @@
+---
+:concurrency: 3
+production:
+  :concurrency: 20
