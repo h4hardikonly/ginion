@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 20160519045420) do
     t.integer  "number"
     t.integer  "queued_by_id"
     t.string   "state"
+    t.string   "against"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end

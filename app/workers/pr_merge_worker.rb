@@ -1,3 +1,5 @@
+require "#{Rails.root}/lib/pr_merger.rb"
+
 class PrMergeWorker
   include Sidekiq::Worker
   sidekiq_options retry: false, backtrace: true
