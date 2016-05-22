@@ -23,6 +23,8 @@ gem 'state_machines-activerecord'
 
 gem 'sidekiq'                          # background processing
 
+gem "octokit"
+
 # gem 'httparty'
 # gem "time_difference"
 
