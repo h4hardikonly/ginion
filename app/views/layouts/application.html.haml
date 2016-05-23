@@ -15,4 +15,6 @@
               = link_to destroy_user_session_path, method: 'delete' do
                 %btn.btn.btn-danger
                   %span.glyphicon.glyphicon-log-out{'aria-hidden' => 'true'}
+    #flash-container
+      = render partial: "shared/flash_messages", flash: flash
     = yield
