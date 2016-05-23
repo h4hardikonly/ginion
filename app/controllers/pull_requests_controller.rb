@@ -1,6 +1,11 @@
 class PullRequestsController < ApplicationController
   def create
-    remote_pr = GIT_INTERACTOR.pull_request('coupa/coupa_development', params[:number])
+    begin
+      remote_pr = GIT_INTERACTOR.pull_request('coupa/coupa_development', params[:number])
+    rescue Octokit::NotFound => e
+      respond_to { |f| f.js { flash.now[:error] = "Pull Request #{params[:number]} not found" } }
+      return
+    end
     against = remote_pr.base.ref
     state = remote_pr.mergeable_state
 
