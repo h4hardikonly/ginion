@@ -12,12 +12,11 @@ class PullRequestsController < ApplicationController
       unstable = (mergeable_state == 'unstable')
     end
 
-    binding.pry
     @success = @pull_request.save
     if @success && (conflict || unstable)
       @pull_request.send(conflict ? :conflict : :unstable)
     else
-      @pull_request.errors.full_messages.to_sentence
+      flash.now[:error] = @pull_request.errors.full_messages.to_sentence
     end
   end
 end

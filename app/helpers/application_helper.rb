@@ -1,6 +1,6 @@
 module ApplicationHelper
   def bootstrap_class_for flash_type
-    case flash_type
+    case (flash_type.try(:to_sym) || flash_type)
       when :success
         "alert-success" # Green
       when :error

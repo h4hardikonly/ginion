@@ -1,4 +1,4 @@
 - if @success
-  = escape_javascript(render partial: 'pull_requests/pr')
+  document.location.href="/";
 - else
-  = escape_javascript(render partial: "shared/flash_messages", flash: flash)
+  != "$('#flash-container').html('#{escape_javascript(render partial: "shared/flash_messages", flash: flash)}');"
