@@ -1,1 +1,4 @@
-
+- if @success
+  = escape_javascript(render partial: 'pull_requests/pr')
+- else
+  = escape_javascript(render partial: "shared/flash_messages", flash: flash)

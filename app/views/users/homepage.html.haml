@@ -1,25 +1,35 @@
-.row
-  .col-md-2
-  .col-md-8
-    .panel.panel-warning
-      .panel-heading
-        .row
-          .col-xs-9 Your pull request in queue for merge
-          .col-xs-3
-            = form_tag pull_requests_path, id: 'add-new-pr-form', class: 'input-group', enctype: 'application/json' #, onsubmit: 'return false;'
-            = text_field_tag :number, nil, placeholder: 'Pull request number', class: 'form-control'
-            %span.input-group-btn#add-new-pr-btn
-              %button.btn.btn-sm-default{"aria-label": "Left Align"}
-                %span.glyphicon.glyphicon-plus{"aria-hidden": "true"}
-      - # .panel-body
-      %table.table.table-striped.table-hover.warning
-        %tr
-          %th Queue
-          %th PR number
-          %th Date added
-          %th Status
-        = render partial: 'pull_requests/pr', collection: @prs
-  .col-md-2
+.container-fluid
+  .row
+    .col-md-6
+      .panel.panel-warning
+        .panel-heading
+          .row
+            .col-xs-6 PR in queue for merge
+            .col-xs-6
+              = form_tag pull_requests_path, id: 'add-new-pr-form', class: 'input-group', enctype: 'application/json'
+              = text_field_tag :number, nil, placeholder: 'Pull request number', class: 'form-control'
+              %span.input-group-btn#add-new-pr-btn
+                %button.btn.btn-sm-default{"aria-label": "Left Align"}
+                  %span.glyphicon.glyphicon-plus{"aria-hidden": "true"}
+        - # .panel-body
+        %table.table.table-striped.table-hover.warning
+          %tr
+            %th Queue
+            %th PR number
+            %th Status
+          = render partial: 'pull_requests/pr', collection: @queued_prs
+    .col-md-6
+      .panel.panel-warning
+        .panel-heading
+          PR which require action before merge
+        - # .panel-body Look at you with nothing to do! .glyphicon.glyphicon-glass
+        %table.table.table-striped.table-hover.warning
+          %tr
+            %th PR number
+            %th Status
+            %th Action required before merge
+          = render partial: 'pull_requests/pr', collection: @prs
+    .col-md-6
 
 :javascript
   $(document).ready( function() {
