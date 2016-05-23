@@ -6,8 +6,13 @@
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
   %body
-    %nav.navbar.navbar-inverse
-      .container-fluid
-        .collapse.navbar-collapse
-          .navbar-text.navbar-right= current_user.email
+    - if current_user.present?
+      %nav.navbar.navbar-inverse
+        .container-fluid
+          .collapse.navbar-collapse
+            .navbar-text.navbar-right
+              = current_user.email
+              = link_to destroy_user_session_path, method: 'delete' do
+                %btn.btn.btn-danger
+                  %span.glyphicon.glyphicon-log-out{'aria-hidden' => 'true'}
     = yield
