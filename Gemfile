@@ -27,6 +27,9 @@ gem "octokit"
 
 # gem 'httparty'
 # gem "time_difference"
+group :production do
+  gem 'unicorn'
+end
 
 group :development, :test do
   gem 'byebug'
