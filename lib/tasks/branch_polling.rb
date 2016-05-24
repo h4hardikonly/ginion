@@ -24,7 +24,7 @@ class BranchPolling
       rescue => e
         logger.error "#{e.class}:#{e.message}\n#{e.backtrace.join("\n")}"
       end
-      sleep GlobalConst::WAIT_TIME_BETWEEN_MERGE_ENQUEUE_TRY
+      sleep ENV['WAIT_TIME_BETWEEN_MERGE_ENQUEUE_TRY'] || GlobalConst::WAIT_TIME_BETWEEN_MERGE_ENQUEUE_TRY
     end
   end
 end
