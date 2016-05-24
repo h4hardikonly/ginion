@@ -12,17 +12,17 @@ class BranchPolling
     while true
       begin
         if default_queue && default_queue.size > 0
-          logger.debug "default queue size is #{default_queue.size}, waiting for queue to get empty before enqueuing new prs"
+          puts "default queue size is #{default_queue.size}, waiting for queue to get empty before enqueuing new prs"
         else
           # green_branches = RemoteBranchTracker.green_branches
           pr_to_be_merged = PullRequest.pick_for_merge(against: 'green_branches')
-          logger.debug "enqueuing #{pr_to_be_merged.size} pull requests"
+          puts "enqueuing #{pr_to_be_merged.size} pull requests"
           pr_to_be_merged.each do |pr_id|
             PrMergeWorker.perform_async pr_id
           end
         end
       rescue => e
-        logger.error "#{e.class}:#{e.message}\n#{e.backtrace.join("\n")}"
+        puts "#{e.class}:#{e.message}\n#{e.backtrace.join("\n")}"
       end
       sleep ENV['WAIT_TIME_BETWEEN_MERGE_ENQUEUE_TRY'] || GlobalConst::WAIT_TIME_BETWEEN_MERGE_ENQUEUE_TRY
     end

@@ -13,8 +13,8 @@ class PullRequestsController < ApplicationController
     if remote_pr.mergeable_state == 'unknown'
       @pull_request.state = 'closed'
     else
-      conflict = (mergeable_state == 'dirty')
-      unstable = (mergeable_state == 'unstable')
+      conflict = (remote_pr.mergeable_state == 'dirty')
+      unstable = (remote_pr.mergeable_state == 'unstable')
     end
 
     @success = @pull_request.save
