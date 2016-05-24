@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20160519045420) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "pull_requests", force: :cascade do |t|
     t.integer  "number"
     t.integer  "queued_by_id"
@@ -22,9 +25,9 @@ ActiveRecord::Schema.define(version: 20160519045420) do
     t.datetime "updated_at",   null: false
   end
 
-  add_index "pull_requests", ["number"], name: "index_pull_requests_on_number"
-  add_index "pull_requests", ["queued_by_id"], name: "index_pull_requests_on_queued_by_id"
-  add_index "pull_requests", ["state"], name: "index_pull_requests_on_state"
+  add_index "pull_requests", ["number"], name: "index_pull_requests_on_number", using: :btree
+  add_index "pull_requests", ["queued_by_id"], name: "index_pull_requests_on_queued_by_id", using: :btree
+  add_index "pull_requests", ["state"], name: "index_pull_requests_on_state", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -43,7 +46,7 @@ ActiveRecord::Schema.define(version: 20160519045420) do
     t.string   "uid"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
 end
