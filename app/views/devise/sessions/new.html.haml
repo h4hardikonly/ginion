@@ -1,0 +1,14 @@
+
+- if devise_mapping.omniauthable?
+  - resource_class.omniauth_providers.each do |provider|
+    %br/
+    %br/
+    %br/
+    .container
+      .row.onl_row-sm-offset-3.onl_socialButtons
+        = link_to omniauth_authorize_path(resource_name, provider), {'class' => 'btn btn-lg btn-block onl_btn-github', 'data-toggle'=>"tooltip", 'data-placement'=>"top", 'title'=>"GitHub"} do
+          %i.fa.fa-github.fa-2x
+          %span.hidden-xs
+            = "Sign in with #{OmniAuth::Utils.camelize(provider)}"
+      .center-div
+
