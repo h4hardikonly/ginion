@@ -4,7 +4,7 @@
       .panel.panel-warning
         .panel-heading
           .row
-            .col-xs-6 PR in queue for merge
+            .col-xs-6.h4 PR in queue for merge
             .col-xs-6
               = form_tag pull_requests_path, id: 'add-new-pr-form', class: 'input-group', enctype: 'application/json'
               = text_field_tag :number, nil, placeholder: 'Pull request number', class: 'form-control'
@@ -16,12 +16,13 @@
           %tr
             %th Queue
             %th PR number
+            %th Target Branch
             %th Status
-          = render partial: 'pull_requests/pr', collection: @queued_prs
+          = render partial: 'pull_requests/queued_pr', collection: @queued_prs
     .col-md-6
       .panel.panel-warning
         .panel-heading
-          PR which require action before merge
+          .h4 PR which require action before merge
         - # .panel-body Look at you with nothing to do! .glyphicon.glyphicon-glass
         %table.table.table-striped.table-hover.warning
           %tr
