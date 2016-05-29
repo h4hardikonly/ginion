@@ -1,4 +1,5 @@
 require_relative 'lockit_interactor'
+require "#{Rails.root}/lib/git/pull_request"
 
 class PrMerger
   attr_reader :pr

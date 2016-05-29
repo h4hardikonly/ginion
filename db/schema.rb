@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160519045420) do
+ActiveRecord::Schema.define(version: 20160529033405) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,8 +21,11 @@ ActiveRecord::Schema.define(version: 20160519045420) do
     t.integer  "queued_by_id"
     t.string   "state"
     t.string   "against"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.datetime "last_merge_try_at"
+    t.integer  "merge_try_count",   default: 0
+    t.datetime "last_sync_at"
   end
 
   add_index "pull_requests", ["number"], name: "index_pull_requests_on_number", using: :btree

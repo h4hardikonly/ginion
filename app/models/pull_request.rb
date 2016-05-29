@@ -7,7 +7,9 @@ class PullRequest < ActiveRecord::Base
   validates_uniqueness_of :number
 
   # check passed attributes and filter based on that
-  scope :ready_to_merge, ->(against_branch_name) { where(state: 'open').where(against: (GlobalConst::ALLOWED_MERGES_AGAINST & against_branch_name)).order(created_at: :desc) }
+  scope :ready_to_merge, ->(against_branch_name) { 
+    where(state: 'open').where(against: GlobalConst::ALLOWED_MERGES_AGAINST.find{|branch| branch == against_branch_name}).order(created_at: :desc)
+  }
 
   state_machine initial: :open do # 'clean'
     event :merged do

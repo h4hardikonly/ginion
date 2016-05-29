@@ -6,8 +6,8 @@ class Ginion::PullRequest
     @remote_pr_obj = options[:remote_pr_obj] || self.class.remote_pr(local_pr_obj.number)
   end
 
-  def self.sync
-    compare_assign_state(local_pr_obj, remote_pr_obj)
+  def sync
+    compare_assign_state
     # to get status of each checks of PR's last commit
     # https://octokit.github.io/octokit.rb/Octokit/Client/Statuses.html#combined_status-instance_method
     local_pr_obj.sync_complete
@@ -17,11 +17,11 @@ class Ginion::PullRequest
     GIT_INTERACTOR.pull_request('coupa/coupa_development', pr_number)
   end
 
-  def self.compare_assign_state
+  def compare_assign_state
     if remote_pr_obj.state == 'closed'
       remote_pr_obj.merged ? local_pr_obj.merged : local_pr_obj.close_without_merge
     else
-      case remote_state
+      case remote_pr_obj.mergeable_state
       when 'conflict'
         local_pr_obj.conflict
       when 'unstable'

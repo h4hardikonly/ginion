@@ -4,5 +4,5 @@ module GlobalConst
   UNLOCKED_BRANCHES = ['master', '015_release']
   ALLOWED_MERGES_AGAINST = UNLOCKED_BRANCHES
   VALID_TARGET_BRANCHES_REGEXP = /\A(master|\d{3}_release|\d{3}_\d+_\d+_release|\d{3}_\d+_release)\z/
-  NUM_OF_ENQUEUE_PER_BRANCH_AT_TIME = 2
+  NUM_OF_ENQUEUE_PER_BRANCH_AT_TIME = 20
 end

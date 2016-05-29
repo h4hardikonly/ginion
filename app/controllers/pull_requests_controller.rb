@@ -1,3 +1,5 @@
+require "#{Rails.root}/lib/git/pull_request"
+
 class PullRequestsController < ApplicationController
   def create
     begin
@@ -6,13 +8,12 @@ class PullRequestsController < ApplicationController
       respond_to { |f| f.js { flash.now[:error] = "Pull Request #{params[:number]} not found" } }
       return
     end
-
     against = remote_pr.base.ref
-    state = remote_pr.mergeable_state
 
     @pull_request = PullRequest.new(number: params[:number], queued_by: current_user, against: against)
     if remote_pr.state == 'closed'
-      @pull_request.state = 'closed'
+      flash.now[:error] = "Can't add because Pull Request is closed"
+      return
     else
       conflict = (remote_pr.mergeable_state == 'dirty')
       unstable = (remote_pr.mergeable_state == 'unstable')
