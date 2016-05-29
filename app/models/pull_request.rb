@@ -41,4 +41,17 @@ class PullRequest < ActiveRecord::Base
   def queued_at
     created_at
   end
+
+  def trying_to_merge
+    update_last_merge_try_at
+    increment_merge_try_count
+  end
+
+  def update_last_merge_try_at
+    update_attribute(:last_merge_try_at, Time.now)
+  end
+
+  def increment_merge_try_count
+    update_attribute(:merge_try_count, merge_try_count + 1)
+  end
 end

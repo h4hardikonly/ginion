@@ -8,6 +8,7 @@ class PrMerger
   end
 
   def merge
+    pr.trying_to_merge
     command_result = system(lockit_command) rescue nil
     # success:false PR#1 executed command bin/lockit merge 111
     puts "#{command_result ? 'success' : 'failed'} for PR##{pr.id} executed command \"#{lockit_command}\""
