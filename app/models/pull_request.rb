@@ -9,23 +9,26 @@ class PullRequest < ActiveRecord::Base
   # check passed attributes and filter based on that
   scope :ready_to_merge, ->(against_branch_name) { where(state: 'open').where(against: (GlobalConst::ALLOWED_MERGES_AGAINST & against_branch_name)).order(created_at: :desc) }
 
-  state_machine initial: :open do # open is known as clean in git
+  state_machine initial: :open do # 'clean'
     event :merged do
-      transition open: :merge_closed
+      transition all => :merge_closed
+    end
+
+    event :close_without_merge do
+      transition all => :unmerge_closed
     end
 
     event :reopen do
-      transition closed: :open
+      transition all => :open
     end
 
-    event :conflict do
-      transition open: :conflict
+    event :conflict do # 'dirty'
+      transition all => :conflict
     end
 
-    event :unstable do
-      transition open: :unstable
+    event :unstable do # 'unstable'
+      transition all => :unstable
     end
-    # merged
   end
 
   def self.pick_for_merge(against:)
@@ -53,5 +56,9 @@ class PullRequest < ActiveRecord::Base
 
   def increment_merge_try_count
     update_attribute(:merge_try_count, merge_try_count + 1)
+  end
+
+  def sync_complete
+    self.update_attribute :last_sync_at, Time.now
   end
 end

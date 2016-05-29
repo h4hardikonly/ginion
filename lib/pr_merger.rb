@@ -9,10 +9,15 @@ class PrMerger
 
   def merge
     pr.trying_to_merge
-    command_result = system(lockit_command) rescue nil
-    # success:false PR#1 executed command bin/lockit merge 111
-    puts "#{command_result ? 'success' : 'failed'} for PR##{pr.id} executed command \"#{lockit_command}\""
-    pr.merged if command_result
+    cmd = lockit_command
+    command_result_success = system(cmd) rescue nil
+    puts "#{command_result_success ? 'success' : 'failed'} for PR##{pr.id} executed command \"#{cmd}\""
+
+    if command_result_success
+      pr.merged
+    else
+      Ginion::PullRequest.new(pr).sync
+    end
   end
 
   private
