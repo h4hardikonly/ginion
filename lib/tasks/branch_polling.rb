@@ -15,8 +15,9 @@ class BranchPolling
           puts "default queue size is #{default_queue.size}, waiting for queue to get empty before enqueuing new prs"
         else
           # green_branches = RemoteBranchTracker.green_branches
-          pr_to_be_merged = PullRequest.pick_for_merge(against: 'green_branches')
-          puts "enqueuing #{pr_to_be_merged.size} pull requests"
+          # for now we are merging against master and 015_release but in future we should replace it with green branches
+          pr_to_be_merged = PullRequest.pick_for_merge(against: GlobalConst::ALLOWED_MERGES_AGAINST)
+          puts "enqueuing #{pr_to_be_merged.size} pull requests their ids #{pr_to_be_merged}"
           pr_to_be_merged.each do |pr_id|
             PrMergeWorker.perform_async pr_id
           end

@@ -7,7 +7,7 @@ class PullRequest < ActiveRecord::Base
   validates_uniqueness_of :number
 
   # check passed attributes and filter based on that
-  scope :ready_to_merge, -> { where(state: 'open').where(against: GlobalConst::ALLOWED_MERGES_AGAINST).order(created_at: :desc) }
+  scope :ready_to_merge, ->(against_branch_name) { where(state: 'open').where(against: (GlobalConst::ALLOWED_MERGES_AGAINST & against_branch_name)).order(created_at: :desc) }
 
   state_machine initial: :open do # open is known as clean in git
     event :merged do
@@ -28,8 +28,10 @@ class PullRequest < ActiveRecord::Base
     # merged
   end
 
-  def self.pick_for_merge(options={})
-    ready_to_merge.pluck(:against)
+  def self.pick_for_merge(against:)
+    against.inject([]) do |branch_array, against_branch_name|
+      branch_array += ready_to_merge(against_branch_name).limit(GlobalConst::NUM_OF_ENQUEUE_PER_BRANCH_AT_TIME).pluck(:id)
+    end
   end
 
   def against_locked_branch?
