@@ -12,25 +12,62 @@
                 %button.btn.btn-sm-default{"aria-label": "Left Align"}
                   %span.glyphicon.glyphicon-plus{"aria-hidden": "true"}
         - # .panel-body
-        %table.table.table-striped.table-hover.warning
-          %tr
-            %th Queue
-            %th PR number
-            %th Target Branch
-            %th Status
-          = render partial: 'pull_requests/queued_pr', collection: @queued_prs
+        - if @stucked_prs.blank?
+          .panel-body
+            No pull request are in queue and ready for merge. You can add pull request in queue from here
+            .glyphicon.glyphicon-hand-up
+        - else
+          %table.table.table-striped.table-hover.warning
+            %tr
+              %th Queue
+              %th PR number
+              %th Target Branch
+              %th Status
+            = render partial: 'pull_requests/queued_pr', collection: @queued_prs
     .col-md-6
       .panel.panel-warning
         .panel-heading
           .h4 PR which require action before merge
-        - # .panel-body Look at you with nothing to do! .glyphicon.glyphicon-glass
-        %table.table.table-striped.table-hover.warning
-          %tr
-            %th PR number
-            %th Status
-            %th Action required before merge
-          = render partial: 'pull_requests/pr', collection: @prs
-    .col-md-6
+        - if @stucked_prs.blank?
+          .panel-body
+            No pull request require your attention. Lucky you
+            .glyphicon.glyphicon-thumbs-up
+            %br/
+            - # .glyphicon.glyphicon-glass Look at you with nothing to do!
+
+        - else
+          %table.table.table-striped.table-hover.warning
+            %tr
+              %th PR number
+              %th Status
+              %th Action required before merge
+            = render partial: 'pull_requests/pr', collection: @stucked_prs
+
+  - if @merge_closed_prs.present? || @unmerge_closed_prs.present?
+    .row
+      .col-md-6
+        .panel.panel-warning
+          .panel-heading
+            .h4 PR closed after merge
+          - # .panel-body Look at you with nothing to do! .glyphicon.glyphicon-glass
+          %table.table.table-striped.table-hover.warning
+            %tr
+              %th PR number
+              %th Status
+              %th Action required before merge
+            = render partial: 'pull_requests/pr', collection: @merge_closed_prs
+      .col-md-6
+        .panel.panel-warning
+          .panel-heading
+            .h4 PR closed before merge 
+          - # .panel-body
+          %table.table.table-striped.table-hover.warning
+            %tr
+              %th Queue
+              %th PR number
+              %th Target Branch
+              %th Status
+            = render partial: 'pull_requests/queued_pr', collection: @unmerge_closed_prs
 
 :javascript
   $(document).ready( function() {
