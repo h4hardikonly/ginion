@@ -8,6 +8,8 @@ class Ginion::PullRequest
 
   def self.sync
     compare_assign_state(local_pr_obj, remote_pr_obj)
+    # to get status of each checks of PR's last commit
+    # https://octokit.github.io/octokit.rb/Octokit/Client/Statuses.html#combined_status-instance_method
     local_pr_obj.sync_complete
   end
 
