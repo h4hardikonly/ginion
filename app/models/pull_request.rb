@@ -35,7 +35,7 @@ class PullRequest < ActiveRecord::Base
   end
 
   def against_locked_branch?
-    UNLOCKED_BRANCHES.include?(against)
+    UNLOCKED_BRANCHES.exclude?(against)
   end
 
   def queued_at
